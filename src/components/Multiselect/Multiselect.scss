@@ -1,0 +1,284 @@
+.select {
+  
+  width: 594px;
+  margin: 20px;
+  position: relative;
+
+  &__head {    
+    height: 48px;
+    max-height: 200px;
+    padding: 8px 14px;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 66, 105, 0.28);
+    box-sizing: border-box;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__placeholder {
+    color: rgba(0, 32, 51, 0.35);
+    font: normal 16px/25px "Segoe UI", sans-serif;
+  }
+
+  &__itemWrap {
+    width: max-content;
+  }
+
+  &__headItemAnimate {
+    padding: 6px 12px 5px 12px;
+    background: rgba(0, 66, 105, 0.07);
+    border-radius: 4px;
+    transform: rotate(0deg);
+    margin: 0 4px;
+    display: inline;
+    border: none;
+    max-width: 500px;
+    max-height: 30px;
+    text-overflow: ellipsis;
+  }
+
+  &__wrapHeadItem {
+    width: 490px;
+    overflow: hidden;
+    overflow-x: hidden;
+
+    &--active {
+      overflow-x: scroll;
+    }
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 57, 92, 0.8);
+      border-radius: 20px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 66, 105, 0.07);
+      border-radius: 20px;
+    }
+  }
+
+  .enter {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    
+  }
+  
+  .enter-active {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+  }
+  
+  .exit.exit-active {
+    opacity:0;
+    transition: opacity 0.2s ease;
+  }
+  
+  .exit-done {
+    opacity:0;
+    transition: opacity 0.2s ease;
+  }  
+
+  &__headItemTitle {
+    font: 400 18px/25px Segoe UI, sans-serif;
+    color: rgba(0, 57, 92, 0.8);
+    margin: 0px 11px 0 0px;
+  }
+
+  &___headItemDel {
+    height: 11.3px;
+    width: 11.3px;
+    padding: 0 0 0 5px;
+    position: relative;
+
+    &::after,
+    &::before {
+      content: ' ';
+      position: absolute;
+      background-color:rgb(161, 183, 196);
+      width: 2px;
+      height: 15px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      transition: background-color 0.3s ease;
+    }
+
+    &::before {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      &::after, 
+      &::before {
+        background-color: rgba(0, 124, 196, 0.35);
+      }
+    }
+  }
+
+  &__buttons {
+    position: absolute;
+    top: 14px;
+    right: 2px;
+  }
+
+  &__cleanInput {
+    margin: 0 20px 0 0;
+    position: relative;
+    height: 11.3px;
+    width: 11.3px;
+
+    &::after,
+    &::before {
+      content: ' ';
+      position: absolute;
+      background-color: rgb(161, 183, 196);
+      width: 2px;
+      height: 15px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      transition: background-color 0.3s ease;
+    }
+
+    &::before {
+      width: 15px;
+      height: 2px;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      &::after, 
+      &::before {
+        background-color: rgba(0, 124, 196, 0.35);
+      }
+    }
+  }
+
+  &__openSelect {
+    padding: 8px 20px;
+    border-left: 1px solid rgba(0, 66, 105, 0.28);
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;    
+
+    &::after {
+      display: block;
+      position: absolute;
+      box-sizing: border-box;
+      content: '';
+      border: solid 4.5px transparent;
+      border-top-color: rgb(166, 178, 184);
+      left: 67%;
+      top: 50%;
+      transform: translateX(-50%);
+      margin-top: -2.25px;
+      transition: border-top-color 0.2s ease, transform 0.2s ease;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--active {
+      &::after {
+        transform: translate(-50%, -50%) rotate(180deg);
+      }
+    }
+  }
+
+  &__body {
+    height: 0;
+    opacity: 0;
+    overflow: scroll;
+    overflow-x: hidden;
+    visibility: hidden;
+
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 66, 105, 0.28);
+    transition: all 0.3s ease;
+
+    &--active {
+      height: 188px;
+      opacity: 1;
+      margin-top: 10px; 
+      visibility: visible;
+      position: absolute;
+      display: block;
+      padding: 10px 0 0 0;
+      top: 50px;
+      left: 0;
+      right: 0;
+      z-index: 2;
+
+      &::-webkit-scrollbar {
+        width: 7px;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background: rgba(0, 57, 92, 0.8);
+        border-radius: 20px;
+      }
+    
+      &::-webkit-scrollbar-track {
+        background: rgba(0, 66, 105, 0.07);
+        border-radius: 20px;
+      }
+    }
+    
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    label {
+      padding-left: 39px;
+      padding-top: 6px;
+      position: relative;
+      
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    label::before {
+      content: '';
+      position: absolute;
+      top: 11px;
+      left: 13px;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 1px solid rgba(0, 66, 105, 0.28);
+      box-sizing: border-box;
+      border-radius: 4px;
+      transform: rotate(0deg);
+      vertical-align: middle;
+      background-color: #FFFFFF;
+      transition: background-color 0.3s ease;
+  
+    }
+
+    input[type="checkbox"]:checked + label::before {
+      content: url('./icon/Subtract.png');
+      background-color:#0078D2;
+    }
+  }
+
+  &__option {
+    padding: 0 0 10px 0;
+    font: normal 18px/25px 'Segoe UI', sans-serif;
+    color: #002033;
+    transition: background-color 0.3s ease;
+    border: none;
+
+    &:hover {
+      cursor: pointer; 
+    }
+  }
+}

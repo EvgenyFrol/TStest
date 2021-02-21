@@ -1,0 +1,37 @@
+$breakpoints: (
+  "phone":            639px, // 320
+  "tablet":           1023px, // 640
+  "desktop-small":    1365px, // 1024
+  "desktop":          1919px, // 1366
+);
+
+@mixin mq($width, $widthMax: false) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+
+    @if ($widthMax !=  false) {
+      $widthMax: map_get($breakpoints, $widthMax);
+
+      @media only screen and (max-width: $width) and (min-width: $widthMax + 1) {
+        @content;
+      }
+    }
+
+    @else {
+      @media only screen and (max-width: $width) {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin buttonReset {
+  padding: 0;
+  line-height: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  appearance: none;
+}

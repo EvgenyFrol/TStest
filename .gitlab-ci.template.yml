@@ -1,0 +1,80 @@
+image: node:14-alpine
+
+stages:
+  - test
+  - deploy
+  - storybook
+  - pages
+
+variables:
+  DIST: "build"
+
+.build_template: &build_definition
+  before_script:
+    - npm ci
+
+test:
+  stage: test
+  <<: *build_definition
+  script:
+    - npm run lint:unix
+    - npm run type-check
+  except:
+    - master
+
+deploy:
+  stage: deploy
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  before_script:
+    - apk update && apk upgrade
+    - apk add py3-pip python3-dev libffi-dev openssl-dev gcc libc-dev make
+    - apk add openssh-client sshpass
+    - pip install docker-compose
+    - mkdir -p ~/.ssh/
+    - echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
+    - echo "$SSH_KEY" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 400 ~/.ssh/id_rsa
+  script:
+    - DOCKER_HOST="ssh://$SSH_USER@$SSH_HOST" docker-compose up -d --build
+  environment:
+    name: production
+    url: https://template-react.ru/
+  only:
+    - master
+
+storybook:
+  stage: storybook
+  <<: *build_definition
+  variables:
+    PUBLIC_URL: "/template/react"
+    REACT_APP_BASE_API_URL: "https://base-api-url.ru"
+  script:
+    - npm run build-storybook
+  artifacts:
+    paths:
+      - storybook-static/
+    expire_in: 30 min
+  only:
+    - dev
+
+pages:
+  stage: pages
+  before_script:
+    - apk add gzip
+  script:
+    - rm -rf public
+    - mv storybook-static public
+    - gzip -k -6 -r public
+  artifacts:
+    paths:
+      - public
+  dependencies:
+    - storybook
+  environment:
+    name: staging
+    url: https://mst-dev-ops.gitlab.io/template/react
+  only:
+    - dev
